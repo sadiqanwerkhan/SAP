@@ -1,0 +1,44 @@
+_schema-version: "3.3.0"
+ID: ui5app
+version: 1.0.0
+description: "Sadiq Task Manager - SAPUI5 app on SAP BTP"
+
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+
+modules:
+  - name: ui5app
+    type: html5
+    path: .
+    build-parameters:
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+        - cmd /c if exist ui5app.zip del /f /q ui5app.zip
+        - cmd /c tar -a -c -f ui5app.zip -C dist .
+      build-result: .
+      supported-platforms: []
+
+  - name: ui5app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: ui5app-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - name: ui5app
+          artifacts:
+            - ui5app.zip
+          target-path: resources/
+
+resources:
+  - name: ui5app-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host

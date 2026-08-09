@@ -1,10 +1,15 @@
-# UI5 Application ui5.app
+# SAPUI5 ToDo Application
 
-Insert the purpose of this project and some interesting info here...
+Fast local ToDo app built with SAPUI5, OData mock services, and test automation for unit, integration, and functional validation.
 
-## Description
+## What is included
 
-Insert the description here...
+- Fiori-style SAPUI5 ToDo UI (add, complete, delete, filter, search)
+- Local OData V2 mock service (`/v2/todo/`) with metadata + mock data
+- Unit tests with QUnit
+- Integration tests with OPA5
+- Functional test example with wdi5/WebdriverIO
+- UAT checklist in `UAT_CHECKLIST.md`
 
 ## Requirements
 
@@ -20,84 +25,35 @@ npm install
 
 (To use yarn, just do `yarn` instead.)
 
-## Run the App
-
-Execute the following command to run the app locally for development in watch mode (the browser reloads the app automatically when there are changes in the source code):
+## Run the app locally
 
 ```sh
 npm start
 ```
 
-As shown in the terminal after executing this command, the app is then running on http://localhost:8080/index.html. A browser window with this URL should automatically open.
+Open [http://localhost:8080/index.html](http://localhost:8080/index.html).
 
-(When using yarn, do `yarn start` instead. Also for all commands below, you can just replace `npm` by `yarn` in this case.)
-
-## Build the App
-
-### Unoptimized (but quick)
-
-Execute the following command to build the project and get an app that can be deployed:
-
-```sh
-npm run build
-```
-
-The result is placed into the `dist` folder. To start the generated package, just run
-
-```sh
-npm run start:dist
-```
-
-Note that `index.html` still loads the UI5 framework from the relative URL `resources/...`, which does not physically exist, but is only provided dynamically by the UI5 tooling. So for an actual deployment you should change this URL to either [the CDN](https://sdk.openui5.org/#/topic/2d3eb2f322ea4a82983c1c62a33ec4ae) or your local deployment of UI5.
-
-### Optimized
-
-For an optimized self-contained build (takes longer because the UI5 resources are built, too), do:
+## Build
 
 ```sh
 npm run build:opt
 ```
-
-To start the generated package, again just run:
-
-```sh
-npm run start:dist
-```
-
-In this case, all UI5 framework resources are also available within the `dist` folder, so the folder can be deployed as-is to any static web server, without changing the bootstrap URL.
-
-With the self-contained build, the bootstrap URL in `index.html` has already been modified to load the newly created `sap-ui-custom.js` for bootstrapping, which contains all app resources as well as all needed UI5 JavaScript resources. Most UI5 resources inside the `dist` folder are for this reason actually **not** needed to run the app. Only the non-JS-files, like translation texts and CSS files, are used and must also be deployed. (Only when for some reason JS files are missing from the optimized self-contained bundle, they are also loaded separately.)
-
-(When using yarn, do `yarn build:opt` and `yarn start:dist` instead.)
-
-## Test the App
-
-### Run the Tests
-
-To run all tests, do:
-
-```sh
-npm test
-```
-
-This includes linting and running the unit and integration tests. After the tests have completed, the task ends, so this can be used for automated tests in a continuous integration scenario.
-
-### Run Specific Tests Manually
-
-You can manually open test pages by running `npm start` and then opening one of the following URLs in your browser:
-
-- Unit tests: http://localhost:8080/test/Test.qunit.html?testsuite=test-resources/com/myorg/myapp/testsuite.qunit&test=unit/unitTests
-- Integration tests: http://localhost:8080/test/Test.qunit.html?testsuite=test-resources%2Fcom%2Fmyorg%2Fmyapp%2Ftestsuite.qunit&test=integration%2FopaTests
-- Both kinds of tests: http://localhost:8080/test-resources/sap/ui/qunit/testrunner.html?testpage=%2Ftest%2Ftestsuite.qunit.html&autostart=true
-  
-
-### Check the Code
-
-To lint the code, do:
+## Test
 
 ```sh
 npm run lint
+npm run test-runner-coverage
+npm run wdi5
 ```
+
+You can also open QUnit/OPA manually at:
+[http://localhost:8080/test/testsuite.qunit.html](http://localhost:8080/test/testsuite.qunit.html)
+
+## SAP BTP tooling notes
+
+- The project is UI5 Tooling based and ready to be opened in SAP Business Application Studio.
+- For BTP deployment, add your destination/HTML5 app repo pipeline on top of the generated `dist` build.
+- Keep OData URL externalized in `manifest.json` for non-local landscapes; local runs use the mock server.
 
 ## License
 

@@ -2,9 +2,9 @@
 sap.ui.define(["sap/ui/test/opaQunit", "./pages/Main"], function (opaTest) {
 	"use strict";
 
-	QUnit.module("Sample Hello Journey");
+	QUnit.module("ToDo Journey");
 
-	opaTest("Should open the Hello dialog", function (Given, When, Then) {
+	opaTest("Should load todo list", function (Given, When, Then) {
 		// Arrangements
 		Given.iStartMyUIComponent({
 			componentConfig: {
@@ -12,38 +12,12 @@ sap.ui.define(["sap/ui/test/opaQunit", "./pages/Main"], function (opaTest) {
 			}
 		});
 
-		// Actions
-		When.onTheMainPage.iPressTheSayHelloButton();
-
 		// Assertions
-		Then.onTheMainPage.iShouldSeeTheHelloDialog();
-
-		// Actions
-		When.onTheMainPage.iPressTheOkButtonInTheDialog();
-
-		// Assertions
-		Then.onTheMainPage.iShouldNotSeeTheHelloDialog();
+		Then.onTheMainPage.iShouldSeeTodoList();
+		Then.onTheMainPage.iShouldSeeAtLeastOneTodo();
 
 		// Cleanup
 		Then.iTeardownMyApp();
 	});
 
-	opaTest("Should close the Hello dialog", function (Given, When, Then) {
-		// Arrangements
-		Given.iStartMyUIComponent({
-			componentConfig: {
-				name: "ui5.app"
-			}
-		});
-
-		// Actions
-		When.onTheMainPage.iPressTheSayHelloButton();
-		When.onTheMainPage.iPressTheOkButtonInTheDialog();
-
-		// Assertions
-		Then.onTheMainPage.iShouldNotSeeTheHelloDialog();
-
-		// Cleanup
-		Then.iTeardownMyApp();
-	});
 });

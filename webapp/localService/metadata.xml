@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+	<edmx:DataServices m:DataServiceVersion="2.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+		<Schema Namespace="todo" xml:lang="en" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityType Name="Todo">
+				<Key>
+					<PropertyRef Name="ID"/>
+				</Key>
+				<Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="40"/>
+				<Property Name="Title" Type="Edm.String" Nullable="false" MaxLength="120"/>
+				<Property Name="Priority" Type="Edm.String" Nullable="false" MaxLength="10"/>
+				<Property Name="Completed" Type="Edm.Boolean" Nullable="false"/>
+				<Property Name="DueDate" Type="Edm.DateTime" Nullable="true" Precision="0"/>
+				<Property Name="CreatedAt" Type="Edm.DateTime" Nullable="false" Precision="0"/>
+			</EntityType>
+			<EntityContainer Name="todoEntities" m:IsDefaultEntityContainer="true">
+				<EntitySet Name="Todos" EntityType="todo.Todo"/>
+			</EntityContainer>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

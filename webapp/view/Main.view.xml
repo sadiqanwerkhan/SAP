@@ -3,28 +3,107 @@
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:core="sap.ui.core"
-	core:require="{
-		formatter: 'ui5/app/model/formatter'
-	}">
-
-	<Page
-		title="{i18n>appTitle}"
-		id="page">
+	xmlns:core="sap.ui.core">
+	<Page id="page" title="{i18n>appTitle}">
+		<headerContent>
+			<ObjectStatus text="{= ${view>/completionPercent} + '% ' + ${i18n>todoDoneLabel}}" state="Success" />
+		</headerContent>
+		<subHeader>
+			<OverflowToolbar>
+				<SearchField
+					id="todoSearchField"
+					width="16rem"
+					placeholder="{i18n>todoSearchPlaceholder}"
+					liveChange="onSearch" />
+				<Select id="sortSelect" width="11rem" selectedKey="{view>/sortKey}" change="onSortChange">
+					<core:Item key="CreatedAt" text="{i18n>todoSortCreated}" />
+					<core:Item key="DueDate" text="{i18n>todoSortDueDate}" />
+					<core:Item key="Priority" text="{i18n>todoSortPriority}" />
+				</Select>
+				<ToolbarSpacer />
+				<SegmentedButton id="filterModeButton" selectedKey="all" selectionChange="onFilterChange">
+					<items>
+						<SegmentedButtonItem key="all" text="{i18n>todoFilterAll}" />
+						<SegmentedButtonItem key="open" text="{i18n>todoFilterOpen}" />
+						<SegmentedButtonItem key="done" text="{i18n>todoFilterDone}" />
+					</items>
+				</SegmentedButton>
+			</OverflowToolbar>
+		</subHeader>
 		<content>
-			<IllustratedMessage
-				title="{i18n>appTitle}"
-				illustrationType="sapIllus-SuccessHighFive"
-				enableVerticalResponsiveness="true"
-				description="{i18n>appDescription}">
-				<additionalContent>
+			<VBox class="sapUiSmallMargin">
+				<OverflowToolbar class="sapUiTinyMarginBottom">
+					<ObjectStatus text="{= ${i18n>todoTotalLabel} + ': ' + ${view>/totalCount}}" />
+					<ObjectStatus text="{= ${i18n>todoOpenLabel} + ': ' + ${view>/openCount}}" state="Information" />
+					<ObjectStatus text="{= ${i18n>todoDoneLabel} + ': ' + ${view>/doneCount}}" state="Success" />
+					<ObjectStatus text="{= ${i18n>todoHighLabel} + ': ' + ${view>/highCount}}" state="Error" />
+					<ToolbarSpacer />
+					<Button icon="sap-icon://refresh" press="onRefreshList" tooltip="{i18n>todoRefresh}" />
+				</OverflowToolbar>
+
+				<HBox wrap="Wrap" class="sapUiSmallMarginBottom" alignItems="Center">
+					<Input
+						id="newTodoInput"
+						width="22rem"
+						placeholder="{i18n>todoInputPlaceholder}"
+						value="{view>/newTodoTitle}"
+						submit="onCreateTodo" />
+					<DatePicker
+						id="dueDatePicker"
+						width="12rem"
+						class="sapUiTinyMarginBegin"
+						placeholder="{i18n>todoDueDate}" />
+					<Select id="prioritySelect" class="sapUiTinyMarginBegin" selectedKey="{view>/newTodoPriority}">
+						<core:Item key="Low" text="{i18n>todoPriorityLow}" />
+						<core:Item key="Medium" text="{i18n>todoPriorityMedium}" />
+						<core:Item key="High" text="{i18n>todoPriorityHigh}" />
+					</Select>
 					<Button
-						id="helloButton"
-						text="{formatter: 'formatter.formatValue', path: 'i18n>btnText'}"
-						press="sayHello" />
-				</additionalContent>
-			</IllustratedMessage>
+						id="addTodoButton"
+						class="sapUiTinyMarginBegin"
+						type="Emphasized"
+						icon="sap-icon://add"
+						text="{i18n>todoAdd}"
+						press="onCreateTodo" />
+					<Button
+						id="clearCompletedButton"
+						class="sapUiTinyMarginBegin"
+						text="{i18n>todoClearCompleted}"
+						press="onClearCompleted" />
+					<Button
+						id="markAllDoneButton"
+						class="sapUiTinyMarginBegin"
+						text="{i18n>todoMarkAllDone}"
+						press="onMarkAllOpenDone" />
+				</HBox>
+
+				<List
+					id="todoList"
+					busy="{view>/busy}"
+					updateFinished="onListUpdateFinished"
+					mode="Delete"
+					delete="onDeleteTodo"
+					growing="true"
+					growingScrollToLoad="true"
+					growingThreshold="20"
+					items="{
+						path: '/Todos',
+						templateShareable: true
+					}">
+					<CustomListItem>
+						<HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
+							<HBox width="100%" alignItems="Center">
+								<CheckBox selected="{Completed}" select="onToggleCompleted" />
+								<VBox class="sapUiTinyMarginBegin">
+									<ObjectIdentifier title="{Title}" text="{path:'CreatedAt', type:'sap.ui.model.type.Date', formatOptions:{style:'medium'}}" />
+									<ObjectStatus text="{Priority}" state="{= ${Priority} === 'High' ? 'Error' : ${Priority} === 'Medium' ? 'Warning' : 'Success'}" />
+								</VBox>
+							</HBox>
+							<ObjectStatus text="{path:'DueDate', type:'sap.ui.model.type.Date', formatOptions:{style:'medium'}}" />
+						</HBox>
+					</CustomListItem>
+				</List>
+			</VBox>
 		</content>
 	</Page>
-
 </mvc:View>

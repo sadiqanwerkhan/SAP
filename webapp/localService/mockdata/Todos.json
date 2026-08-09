@@ -1,0 +1,26 @@
+[
+	{
+		"ID": "1",
+		"Title": "Set up SAPUI5 local environment",
+		"Priority": "High",
+		"Completed": false,
+		"DueDate": "/Date(1771200000000)/",
+		"CreatedAt": "/Date(1770600000000)/"
+	},
+	{
+		"ID": "2",
+		"Title": "Write unit and OPA5 tests",
+		"Priority": "Medium",
+		"Completed": false,
+		"DueDate": "/Date(1771804800000)/",
+		"CreatedAt": "/Date(1770686400000)/"
+	},
+	{
+		"ID": "3",
+		"Title": "Prepare UAT checklist",
+		"Priority": "Low",
+		"Completed": true,
+		"DueDate": null,
+		"CreatedAt": "/Date(1770772800000)/"
+	}
+]

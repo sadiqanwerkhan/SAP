@@ -1,4 +1,6 @@
-sap.ui.define(["sap/ui/core/UIComponent", "sap/ui/Device", "./model/models"], function (UIComponent, Device, models) {
+sap.ui.define(
+	["sap/ui/core/UIComponent", "sap/ui/Device", "sap/ui/model/odata/v2/ODataModel", "./model/models", "./localService/mockserver"],
+	function (UIComponent, Device, ODataModel, models, mockserver) {
 	"use strict";
 
 	return UIComponent.extend("ui5.app.Component", {
@@ -7,14 +9,29 @@ sap.ui.define(["sap/ui/core/UIComponent", "sap/ui/Device", "./model/models"], fu
 			interfaces: ["sap.ui.core.IAsyncContentCreation"]
 		},
 		init: function () {
-			// call the base component's init function
-			UIComponent.prototype.init.call(this); // create the views based on the url/hash
-
-			// create the device model
+			// call base init first to keep UIComponent lifecycle consistent
+			UIComponent.prototype.init.call(this);
 			this.setModel(models.createDeviceModel(), "device");
 
-			// create the views based on the url/hash
-			this.getRouter().initialize();
+			const fnCreateMainModelAndRoute = function () {
+				this.setModel(new ODataModel("/v2/todo/", {
+					useBatch: false,
+					defaultBindingMode: "TwoWay",
+					defaultCountMode: "Inline"
+				}));
+				this.getRouter().initialize();
+			}.bind(this);
+
+			const bLocalRun = /localhost|127\.0\.0\.1/i.test(window.location.hostname);
+			if (bLocalRun) {
+				mockserver
+					.init()
+					.then(fnCreateMainModelAndRoute)
+					.catch(fnCreateMainModelAndRoute);
+				return;
+			}
+
+			fnCreateMainModelAndRoute();
 		},
 		/**
 		 * This method can be called to determine whether the sapUiSizeCompact or sapUiSizeCozy
