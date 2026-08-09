@@ -1,0 +1,26 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Dialog id="editTodoDialog" title="{i18n>todoEditTitle}" contentWidth="26rem">
+		<content>
+			<VBox class="sapUiSmallMargin">
+				<Label text="{i18n>todoInputPlaceholder}" />
+				<Input value="{Title}" />
+				<Label text="{i18n>todoDueDate}" class="sapUiSmallMarginTop" />
+				<DatePicker value="{path:'DueDate', type:'sap.ui.model.type.Date', formatOptions:{style:'medium'}}" />
+				<Label text="{i18n>todoSortPriority}" class="sapUiSmallMarginTop" />
+				<Select selectedKey="{Priority}">
+					<core:Item key="Low" text="{i18n>todoPriorityLow}" />
+					<core:Item key="Medium" text="{i18n>todoPriorityMedium}" />
+					<core:Item key="High" text="{i18n>todoPriorityHigh}" />
+				</Select>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button type="Emphasized" text="{i18n>todoSave}" press="onSaveTodo" />
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>todoCancel}" press="onCancelEditTodo" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

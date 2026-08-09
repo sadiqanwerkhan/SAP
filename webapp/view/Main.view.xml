@@ -90,7 +90,7 @@
 						path: '/Todos',
 						templateShareable: true
 					}">
-					<CustomListItem>
+<CustomListItem>
 						<HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
 							<HBox width="100%" alignItems="Center">
 								<CheckBox selected="{Completed}" select="onToggleCompleted" />
@@ -99,7 +99,10 @@
 									<ObjectStatus text="{Priority}" state="{= ${Priority} === 'High' ? 'Error' : ${Priority} === 'Medium' ? 'Warning' : 'Success'}" />
 								</VBox>
 							</HBox>
-							<ObjectStatus text="{path:'DueDate', type:'sap.ui.model.type.Date', formatOptions:{style:'medium'}}" />
+							<HBox alignItems="Center">
+								<ObjectStatus text="{path:'DueDate', type:'sap.ui.model.type.Date', formatOptions:{style:'medium'}}" />
+								<Button icon="sap-icon://edit" type="Transparent" press="onEditTodo" tooltip="{i18n>todoEdit}" class="sapUiTinyMarginBegin" />
+							</HBox>
 						</HBox>
 					</CustomListItem>
 				</List>
