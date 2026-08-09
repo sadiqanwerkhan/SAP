@@ -102,6 +102,32 @@ sap.ui.define(
 			MessageToast.show("Task deleted.");
 		},
 
+		onEditTodo: function (oEvent) {
+			const sPath = oEvent.getSource().getBindingContext().getPath();
+			if (!this._pEditDialog) {
+				this._pEditDialog = this.loadFragment({ name: "ui5.app.view.EditTodo" });
+			}
+			this._pEditDialog.then(function (oDialog) {
+				oDialog.bindElement(sPath);
+				oDialog.open();
+			});
+		},
+
+		onSaveTodo: function () {
+			const oModel = this.getModel();
+			oModel.submitChanges({
+				success: function () { MessageToast.show("Task updated."); },
+				error: function () { MessageToast.show("Could not update task."); }
+			});
+			this.byId("editTodoDialog").close();
+			this._updateSummary();
+		},
+
+		onCancelEditTodo: function () {
+			this.getModel().resetChanges();
+			this.byId("editTodoDialog").close();
+		},
+
 		onSearch: function (oEvent) {
 			this.getModel("view").setProperty("/searchQuery", oEvent.getParameter("newValue") || "");
 			this._applyQueryState();
