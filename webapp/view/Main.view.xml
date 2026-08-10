@@ -90,7 +90,7 @@
 						path: '/Todos',
 						templateShareable: true
 					}">
-<CustomListItem>
+<CustomListItem type="Navigation" press="onOpenDetail">
 						<HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
 							<HBox width="100%" alignItems="Center">
 								<CheckBox selected="{Completed}" select="onToggleCompleted" />

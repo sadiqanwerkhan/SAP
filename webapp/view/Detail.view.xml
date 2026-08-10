@@ -1,0 +1,25 @@
+<mvc:View
+	controllerName="ui5.app.controller.Detail"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page id="detailPage" title="{i18n>todoDetailTitle}" showNavButton="true" navButtonPress="onNavBack">
+		<VBox class="sapUiLargeMargin">
+			<Title text="{Title}" level="H2" class="sapUiSmallMarginBottom" />
+			<ObjectStatus class="sapUiSmallMarginBottom"
+				title="{i18n>todoSortPriority}"
+				text="{Priority}"
+				state="{= ${Priority} === 'High' ? 'Error' : ${Priority} === 'Medium' ? 'Warning' : 'Success'}" />
+			<ObjectStatus class="sapUiSmallMarginBottom"
+				title="{i18n>todoDoneLabel}"
+				text="{= ${Completed} ? 'Yes' : 'No'}"
+				state="{= ${Completed} ? 'Success' : 'None'}" />
+			<ObjectStatus class="sapUiSmallMarginBottom"
+				title="{i18n>todoDueDate}"
+				text="{path:'DueDate', type:'sap.ui.model.type.Date', formatOptions:{style:'medium'}}" />
+			<ObjectStatus
+				title="{i18n>todoSortCreated}"
+				text="{path:'CreatedAt', type:'sap.ui.model.type.Date', formatOptions:{style:'medium'}}" />
+		</VBox>
+	</Page>
+</mvc:View>

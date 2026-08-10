@@ -113,6 +113,11 @@ sap.ui.define(
 			});
 		},
 
+		onOpenDetail: function (oEvent) {
+			const sId = oEvent.getSource().getBindingContext().getProperty("ID");
+			this.getRouter().navTo("detail", { todoId: sId });
+		},
+
 		onSaveTodo: function () {
 			const oModel = this.getModel();
 			oModel.submitChanges({
