@@ -1,6 +1,6 @@
 sap.ui.define(
-	["./BaseController", "sap/ui/model/json/JSONModel", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/Sorter", "sap/m/MessageToast"],
-	function (BaseController, JSONModel, Filter, FilterOperator, Sorter, MessageToast) {
+	["./BaseController", "sap/ui/model/json/JSONModel", "sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/ui/model/Sorter", "sap/m/MessageToast", "sap/m/MessageBox"],
+	function (BaseController, JSONModel, Filter, FilterOperator, Sorter, MessageToast, MessageBox) {
 	"use strict";
 
 	return BaseController.extend("ui5.app.controller.Main", {
@@ -28,6 +28,10 @@ sap.ui.define(
 
 			if (!sTitle) {
 				MessageToast.show("Enter a task title first.");
+				return;
+			}
+			if (sTitle.length > 120) {
+				MessageToast.show("Title must be 120 characters or fewer.");
 				return;
 			}
 
@@ -97,9 +101,18 @@ sap.ui.define(
 		onDeleteTodo: function (oEvent) {
 			const oItem = oEvent.getParameter("listItem");
 			const oContext = oItem.getBindingContext();
-			this.getModel().remove(oContext.getPath());
-			this._updateSummary();
-			MessageToast.show("Task deleted.");
+			const sTitle = oContext.getProperty("Title");
+
+			MessageBox.confirm("Delete \"" + sTitle + "\"?", {
+				title: "Confirm Delete",
+				onClose: function (sAction) {
+					if (sAction === MessageBox.Action.OK) {
+						this.getModel().remove(oContext.getPath());
+						this._updateSummary();
+						MessageToast.show("Task deleted.");
+					}
+				}.bind(this)
+			});
 		},
 
 		onEditTodo: function (oEvent) {
