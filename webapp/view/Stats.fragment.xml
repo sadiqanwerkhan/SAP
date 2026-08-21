@@ -1,0 +1,31 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:micro="sap.suite.ui.microchart">
+	<Dialog id="statsDialog" title="{i18n>todoStatsTitle}" contentWidth="22rem">
+		<content>
+			<VBox class="sapUiMediumMargin" alignItems="Center">
+				<micro:HarveyBallMicroChart
+					size="L"
+					total="{view>/totalCount}"
+					totalLabel="{= '' + ${view>/totalCount}}"
+					totalScale="{i18n>todoTotalLabel}">
+					<micro:items>
+						<micro:HarveyBallMicroChartItem
+							color="Good"
+							fraction="{view>/doneCount}"
+							fractionLabel="{= ${view>/completionPercent} + '%'}" />
+					</micro:items>
+				</micro:HarveyBallMicroChart>
+				<HBox class="sapUiMediumMarginTop" justifyContent="Center" wrap="Wrap">
+					<ObjectStatus class="sapUiSmallMarginEnd" text="{= ${i18n>todoOpenLabel} + ': ' + ${view>/openCount}}" state="Information" />
+					<ObjectStatus class="sapUiSmallMarginEnd" text="{= ${i18n>todoDoneLabel} + ': ' + ${view>/doneCount}}" state="Success" />
+					<ObjectStatus text="{= ${i18n>todoHighLabel} + ': ' + ${view>/highCount}}" state="Error" />
+				</HBox>
+			</VBox>
+		</content>
+		<endButton>
+			<Button text="{i18n>todoCancel}" press="onCloseStats" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>
