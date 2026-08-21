@@ -167,6 +167,20 @@ sap.ui.define(
 			MessageToast.show("Tasks refreshed.");
 		},
 
+		onOpenStats: function () {
+			this._updateSummary();
+			if (!this._pStatsDialog) {
+				this._pStatsDialog = this.loadFragment({ name: "ui5.app.view.Stats" });
+			}
+			this._pStatsDialog.then(function (oDialog) {
+				oDialog.open();
+			});
+		},
+
+		onCloseStats: function () {
+			this.byId("statsDialog").close();
+		},
+
 		onListUpdateFinished: function () {
 			const oViewModel = this.getModel("view");
 			if (!oViewModel.getProperty("/queryApplied")) {

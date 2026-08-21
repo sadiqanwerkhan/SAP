@@ -38,6 +38,7 @@
 					<ObjectStatus text="{= ${i18n>todoDoneLabel} + ': ' + ${view>/doneCount}}" state="Success" />
 					<ObjectStatus text="{= ${i18n>todoHighLabel} + ': ' + ${view>/highCount}}" state="Error" />
 					<ToolbarSpacer />
+					<Button icon="sap-icon://pie-chart" press="onOpenStats" tooltip="{i18n>todoStatsTitle}" />
 					<Button icon="sap-icon://refresh" press="onRefreshList" tooltip="{i18n>todoRefresh}" />
 				</OverflowToolbar>
 
