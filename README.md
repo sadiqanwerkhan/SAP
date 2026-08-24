@@ -54,6 +54,7 @@ You can also open QUnit/OPA manually at:
 - The project is UI5 Tooling based and ready to be opened in SAP Business Application Studio.
 - For BTP deployment, add your destination/HTML5 app repo pipeline on top of the generated `dist` build.
 - Keep OData URL externalized in `manifest.json` for non-local landscapes; local runs use the mock server.
+- Currently developing the app regularly to reach the expert level of SAP domain development.
 
 ## License
 
