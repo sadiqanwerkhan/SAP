@@ -16,6 +16,8 @@ sap.ui.define(
 				openCount: 0,
 				doneCount: 0,
 				highCount: 0,
+				mediumCount: 0,
+				lowCount: 0,
 				completionPercent: 0,
 				queryApplied: false
 			}), "view");
@@ -267,6 +269,8 @@ sap.ui.define(
 			let iOpen = 0;
 			let iDone = 0;
 			let iHigh = 0;
+			let iMedium = 0;
+			let iLow = 0;
 
 			aItems.forEach(function (oItem) {
 				const oData = oItem.getBindingContext().getObject();
@@ -277,6 +281,10 @@ sap.ui.define(
 				}
 				if (oData.Priority === "High") {
 					iHigh += 1;
+				} else if (oData.Priority === "Medium") {
+					iMedium += 1;
+				} else if (oData.Priority === "Low") {
+					iLow += 1;
 				}
 			});
 
@@ -285,6 +293,8 @@ sap.ui.define(
 			oViewModel.setProperty("/openCount", iOpen);
 			oViewModel.setProperty("/doneCount", iDone);
 			oViewModel.setProperty("/highCount", iHigh);
+			oViewModel.setProperty("/mediumCount", iMedium);
+			oViewModel.setProperty("/lowCount", iLow);
 			oViewModel.setProperty("/completionPercent", iTotal ? Math.round((iDone / iTotal) * 100) : 0);
 		},
 
