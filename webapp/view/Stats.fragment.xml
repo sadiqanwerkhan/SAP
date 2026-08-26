@@ -22,6 +22,13 @@
 					<ObjectStatus class="sapUiSmallMarginEnd" text="{= ${i18n>todoDoneLabel} + ': ' + ${view>/doneCount}}" state="Success" />
 					<ObjectStatus text="{= ${i18n>todoHighLabel} + ': ' + ${view>/highCount}}" state="Error" />
 				</HBox>
+								<micro:ComparisonMicroChart class="sapUiMediumMarginTop" width="18rem">
+					<micro:data>
+						<micro:ComparisonMicroChartData title="{i18n>todoPriorityHigh}" value="{view>/highCount}" color="Error" />
+						<micro:ComparisonMicroChartData title="{i18n>todoPriorityMedium}" value="{view>/mediumCount}" color="Critical" />
+						<micro:ComparisonMicroChartData title="{i18n>todoPriorityLow}" value="{view>/lowCount}" color="Good" />
+					</micro:data>
+				</micro:ComparisonMicroChart>
 			</VBox>
 		</content>
 		<endButton>
