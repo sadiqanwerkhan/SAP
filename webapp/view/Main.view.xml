@@ -20,6 +20,11 @@
 					<core:Item key="DueDate" text="{i18n>todoSortDueDate}" />
 					<core:Item key="Priority" text="{i18n>todoSortPriority}" />
 				</Select>
+								<Select id="groupSelect" width="11rem" selectedKey="{view>/groupKey}" change="onGroupChange">
+					<core:Item key="none" text="{i18n>todoGroupNone}" />
+					<core:Item key="Priority" text="{i18n>todoGroupPriority}" />
+					<core:Item key="Completed" text="{i18n>todoGroupStatus}" />
+				</Select>
 				<ToolbarSpacer />
 				<SegmentedButton id="filterModeButton" selectedKey="all" selectionChange="onFilterChange">
 					<items>

@@ -11,6 +11,7 @@ sap.ui.define(
 				searchQuery: "",
 				filterMode: "all",
 				sortKey: "CreatedAt",
+				groupKey: "none",
 				busy: false,
 				totalCount: 0,
 				openCount: 0,
@@ -163,6 +164,11 @@ sap.ui.define(
 			this._applyQueryState();
 		},
 
+		onGroupChange: function (oEvent) {
+			this.getModel("view").setProperty("/groupKey", oEvent.getSource().getSelectedKey());
+			this._applyQueryState();
+		},
+
 		onRefreshList: function () {
 			this.getModel().refresh(true);
 			this._updateSummary();
@@ -233,33 +239,42 @@ sap.ui.define(
 			const oViewModel = this.getModel("view");
 			const aFilters = this._buildListFilters(oViewModel.getProperty("/filterMode"), oViewModel.getProperty("/searchQuery"));
 			const oBinding = this.byId("todoList").getBinding("items");
-			const oSorter = this._buildSorter(oViewModel.getProperty("/sortKey"));
-
+			const aSorters = this._buildSorters(oViewModel.getProperty("/sortKey"), oViewModel.getProperty("/groupKey"));
 			if (!oBinding) {
 				return;
 			}
 
 			oBinding.filter(aFilters);
-			oBinding.sort(oSorter);
+			oBinding.sort(aSorters);
 		},
 
-		_buildSorter: function (sSortKey) {
+		_buildSorters: function (sSortKey, sGroupKey) {
+			const aSorters = [];
+
+			if (sGroupKey === "Priority") {
+				aSorters.push(new Sorter("Priority", false, function (oContext) {
+					const sPriority = oContext.getProperty("Priority");
+					return { key: sPriority, text: sPriority };
+				}));
+			} else if (sGroupKey === "Completed") {
+				aSorters.push(new Sorter("Completed", false, function (oContext) {
+					const bDone = oContext.getProperty("Completed");
+					return { key: bDone, text: bDone ? "Done" : "Open" };
+				}));
+			}
+
 			if (sSortKey === "Priority") {
-				return new Sorter("Priority", false, null, function (a, b) {
-					const mRank = {
-						High: 3,
-						Medium: 2,
-						Low: 1
-					};
+				aSorters.push(new Sorter("Priority", false, null, function (a, b) {
+					const mRank = { High: 3, Medium: 2, Low: 1 };
 					return (mRank[b] || 0) - (mRank[a] || 0);
-				});
+				}));
+			} else if (sSortKey === "DueDate") {
+				aSorters.push(new Sorter("DueDate", false));
+			} else {
+				aSorters.push(new Sorter("CreatedAt", true));
 			}
 
-			if (sSortKey === "DueDate") {
-				return new Sorter("DueDate", false);
-			}
-
-			return new Sorter("CreatedAt", true);
+			return aSorters;
 		},
 
 		_updateSummary: function () {
