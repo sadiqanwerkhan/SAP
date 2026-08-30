@@ -96,6 +96,19 @@
 						path: '/Todos',
 						templateShareable: true
 					}">
+										<List
+						...existing attributes stay unchanged...
+						items="{
+							path: '/Todos',
+							templateShareable: true
+						}">
+						<noData>
+							<IllustratedMessage
+								illustrationType="sapIllus-NoTasks"
+								title="{i18n>todoEmptyTitle}"
+								description="{i18n>todoEmptyText}" />
+						</noData>
+						<CustomListItem type="Navigation" press="onOpenDetail">
 <CustomListItem type="Navigation" press="onOpenDetail">
 						<HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
 							<HBox width="100%" alignItems="Center">
