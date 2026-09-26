@@ -56,6 +56,7 @@ You can also open QUnit/OPA manually at:
 - Keep OData URL externalized in `manifest.json` for non-local landscapes; local runs use the mock server.
 - Currently developing the app regularly to reach the expert level of SAP domain development.
 - Open for the suggestions, please ask for the contribution if you want to learn this from the scratch as well.
+- Thank you :)
 
 ## License
 
